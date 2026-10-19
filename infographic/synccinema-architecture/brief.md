@@ -1,22 +1,33 @@
-# Infographic Brief: SyncCinema Architecture & Launch
+# Infographic Brief: The Setup Friction Problem (SyncCinema vs Typical Stack)
 
-## One Message
-SyncCinema is a 100% working, zero-friction open-source watch party studio that runs in 3 commands with zero external databases, zero API keys, P2P WebRTC voice chat, and instant localhost-to-friend sharing.
+## The One Message
+Most self-hosted watch party projects die from setup friction (Docker, API keys, Postgres). SyncCinema eliminates every barrier to run out-of-the-box in 3 commands.
 
-## Objectives
-1. Stop developers and users scrolling past: immediate visual contrast (Spotify Dark + Neon Green).
-2. Show the complete value proposition at a glance: 3-command start, zero setup friction, WebRTC audio, and sharing assistant.
-3. Establish technical credibility without marketing hype.
+## Alignment with Caption Hook
+- **LinkedIn Hook:** "The biggest mistake in open-source projects is setup friction. If it takes more than 3 commands to run, most developers close the tab."
+- **X Hook:** "Most watch party projects require 5 API keys, Docker, and a hosted database before you can watch a single video with a friend."
 
-## Fact Sheet (Source Tracing)
-- **3 Commands to run**: `git clone`, `npm install`, `npm run dev` (Source: `README.md`, `package.json`)
-- **Zero External Database**: Auto-persisted to `data/rooms.json` (Source: `server.ts:28`, `src/config.ts:14`)
-- **Zero API Keys**: Uses YouTube IFrame API + oEmbed resolution (Source: `server.ts:1130`, `types.ts`)
-- **P2P WebRTC Voice**: Browser-to-browser audio mesh via Google STUN (Source: `src/hooks/useVoiceChat.ts`, `src/config.ts:17`)
-- **Instant Sharing**: `npm run tunnel` (Cloudflare) + Wi-Fi LAN IP & QR code (Source: `server.ts:1135`, `package.json:11`, `ShareRoomModal.tsx`)
-- **Author**: Kuldeep Singh (University of Southampton '29) | `github.com/KuldeepxAI/synccinema`
+## Structure & Layout
+- **Layout:** `binary-comparison` (High-contrast side-by-side comparison: Problem vs Fix)
+- **Style:** `bold-graphic` / Spotify Minimal Dark with high-contrast red vs green signifiers
+- **Dimensions:** 1200 x 675 px (16:9, safe for mobile feed viewing)
+- **Text Budget:** Under 40 words total, large readable typography (titles 36-48px, items 24-28px).
 
-## Format & Dimensions
-- Layout: Bento Grid (1 Hero Cell + 3 Feature Cells + Architecture Ribbon + Footer)
-- Style: Technical Schematic / Spotify Minimal Dark
-- Resolution: 1200 x 675 px (16:9 aspect ratio, optimized for X & LinkedIn)
+## Exact Text on Image
+- **Top Hook:** THE OPEN-SOURCE SETUP TRAP
+- **Subtitle:** Why developers abandon watch party projects in 2 minutes
+- **Left Column (The Problem):**
+  - Header: TYPICAL STACK
+  - ❌ Docker & Postgres / Redis setup
+  - ❌ Google Cloud & YouTube API keys
+  - ❌ Expensive server audio relay
+  - ❌ "localhost:3000" link fails for friends
+  - Footer tag: 15+ minutes of friction
+- **Right Column (The Fix - SyncCinema):**
+  - Header: SYNCCINEMA
+  - ✓ Zero database (lightweight local JSON)
+  - ✓ Zero API keys (native stream resolver)
+  - ✓ Zero server bandwidth (P2P WebRTC audio)
+  - ✓ 1-command sharing (`npm run tunnel`)
+  - Footer tag: 3 commands · 30 seconds
+- **Footer:** Built by Kuldeep Singh · github.com/KuldeepxAI/synccinema
