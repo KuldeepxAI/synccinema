@@ -1,0 +1,1 @@
+SyncCinema architecture and quick start infographic. Shows 3-command local setup (git clone, npm install, npm run dev), zero external database with local JSON storage, zero API keys with YouTube IFrame and oEmbed, P2P WebRTC audio voice chat with zero server bandwidth, and a built-in localhost sharing assistant with npm run tunnel and local Wi-Fi QR code. Built by Kuldeep Singh.

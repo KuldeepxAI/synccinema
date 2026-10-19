@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SyncCinema Architecture Infographic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      width: 1200px;
+      height: 675px;
+      background: #090909;
+      color: #ffffff;
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      padding: 32px 36px 28px 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      position: relative;
+    }
+    /* Subtle background grid pattern */
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      position: relative;
+      z-index: 1;
+    }
+    .header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .badge-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .badge {
+      background: rgba(30, 215, 96, 0.15);
+      border: 1px solid rgba(30, 215, 96, 0.4);
+      color: #1ed760;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      background: #1ed760;
+      border-radius: 50%;
+    }
+    .title {
+      font-size: 52px;
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      color: #ffffff;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .title span {
+      color: #1ed760;
+    }
+    .subtitle {
+      font-size: 19px;
+      color: #b3b3b3;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+    }
+    .header-pills {
+      display: flex;
+      gap: 8px;
+      padding-top: 6px;
+    }
+    .pill {
+      background: #181818;
+      border: 1px solid #2a2a2a;
+      padding: 6px 12px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #e0e0e0;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    /* Bento Grid */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.9fr 0.9fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 16px;
+      height: 420px;
+      position: relative;
+      z-index: 1;
+    }
+    .card {
+      background: #121212;
+      border: 1px solid #242424;
+      border-radius: 18px;
+      padding: 22px 24px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+    .card-hero {
+      grid-row: span 2;
+      background: linear-gradient(165deg, #161616 0%, #101010 100%);
+      border: 1px solid #2e2e2e;
+      justify-content: space-between;
+    }
+    .card-tag {
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: #1ed760;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+      line-height: 1.15;
+    }
+    .card-desc {
+      font-size: 16px;
+      color: #a0a0a0;
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+    .terminal {
+      background: #000000;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin: 16px 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    .term-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #e5e5e5;
+    }
+    .term-prompt {
+      color: #1ed760;
+      font-weight: 700;
+    }
+    .term-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #222222;
+      color: #888888;
+      font-size: 13px;
+    }
+    .hero-features {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      color: #d0d0d0;
+      font-weight: 600;
+    }
+    .feature-icon {
+      color: #1ed760;
+      font-weight: 800;
+      font-size: 16px;
+    }
+    .mini-card-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .mini-item {
+      background: #181818;
+      border: 1px solid #252525;
+      border-radius: 10px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #e5e5e5;
+    }
+    .mini-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: #1ed760;
+      background: rgba(30, 215, 96, 0.12);
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+    /* Footer */
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 14px;
+      border-top: 1px solid #222222;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-left {
+      font-size: 14px;
+      color: #888888;
+      font-weight: 600;
+    }
+    .footer-left strong {
+      color: #ffffff;
+    }
+    .footer-right {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      color: #1ed760;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-left">
+      <div class="badge-row">
+        <div class="badge">
+          <div class="badge-dot"></div>
+          Zero Setup Friction
+        </div>
+        <span style="color: #666666; font-size: 14px; font-weight: 600;">Open-Source Release</span>
+      </div>
+      <h1 class="title">SyncCinema <span>Watch Party Studio</span></h1>
+      <p class="subtitle">Self-hostable synchronized video playback with zero database & zero API keys</p>
+    </div>
+    <div class="header-pills">
+      <div class="pill">React 19</div>
+      <div class="pill">TypeScript</div>
+      <div class="pill">WebSockets</div>
+      <div class="pill">WebRTC</div>
+    </div>
+  </header>
+
+  <!-- Bento Grid -->
+  <main class="bento-grid">
+    <!-- Hero Card: 3-Command Start -->
+    <div class="card card-hero">
+      <div>
+        <div class="card-tag">⚡ Quick Start</div>
+        <h2 class="card-title">3 Commands to Localhost</h2>
+        <p class="card-desc">Zero external dependencies. Clone and run in under 30 seconds:</p>
+
+        <div class="terminal">
+          <div class="term-line"><span class="term-prompt">$</span> <span>git clone https://github.com/KuldeepxAI/synccinema.git</span></div>
+          <div class="term-line"><span class="term-prompt">$</span> <span>npm install</span></div>
+          <div class="term-line"><span class="term-prompt">$</span> <span>npm run dev</span></div>
+          <div class="term-footer">
+            <span style="color: #1ed760; font-weight: 700;">➜ Local: http://localhost:3000</span>
+            <span>0 vulnerabilities</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-features">
+        <div class="feature-item"><span class="feature-icon">✓</span> Multi-source sync (YouTube, HLS .m3u8, MP4, Live Web)</div>
+        <div class="feature-item"><span class="feature-icon">✓</span> Frame-accurate playback & room-wide reload protection</div>
+        <div class="feature-item"><span class="feature-icon">✓</span> Spotify minimal dark UI & WhatsApp quote-reply chat</div>
+      </div>
+    </div>
+
+    <!-- Card 2: Zero Database Setup -->
+    <div class="card">
+      <div class="card-tag">💾 Zero Database Friction</div>
+      <h3 class="card-title">Local JSON Storage</h3>
+      <div class="mini-card-list">
+        <div class="mini-item">
+          <span>Rooms & Playlists</span>
+          <span class="mini-tag">data/rooms.json</span>
+        </div>
+        <div class="mini-item">
+          <span>No MongoDB or Redis</span>
+          <span class="mini-tag">0 Setup Cost</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3: Zero API Keys -->
+    <div class="card">
+      <div class="card-tag">🔑 Zero API Keys</div>
+      <h3 class="card-title">Native Media Resolution</h3>
+      <div class="mini-card-list">
+        <div class="mini-item">
+          <span>YouTube IFrame API</span>
+          <span class="mini-tag">No Cloud Key</span>
+        </div>
+        <div class="mini-item">
+          <span>Fast OEmbed Metadata</span>
+          <span class="mini-tag">Direct Fetch</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4: WebRTC Voice Chat -->
+    <div class="card">
+      <div class="card-tag">🎙️ P2P Voice Mesh</div>
+      <h3 class="card-title">Browser WebRTC Audio</h3>
+      <div class="mini-card-list">
+        <div class="mini-item">
+          <span>Direct Peer Audio</span>
+          <span class="mini-tag">0 Server Bandwidth</span>
+        </div>
+        <div class="mini-item">
+          <span>Free Google STUN</span>
+          <span class="mini-tag">Pre-configured</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 5: Localhost Sharing Assistant -->
+    <div class="card">
+      <div class="card-tag">🌐 Share with Friends</div>
+      <h3 class="card-title">Localhost-to-World</h3>
+      <div class="mini-card-list">
+        <div class="mini-item">
+          <span>1-Command Tunnel</span>
+          <span class="mini-tag">npm run tunnel</span>
+        </div>
+        <div class="mini-item">
+          <span>Same Wi-Fi Join</span>
+          <span class="mini-tag">LAN IP + QR Code</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-left">
+      Built with meaningful code by <strong>Kuldeep Singh</strong> · University of Southampton '29
+    </div>
+    <div class="footer-right">
+      <span>github.com/KuldeepxAI/synccinema</span>
+      <span style="color: #666666;">•</span>
+      <span style="color: #ffffff;">MIT License</span>
+    </div>
+  </footer>
+</body>
+</html>
