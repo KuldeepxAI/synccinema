@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --bg-base: #121212;
+    --bg-surface: #181818;
+    --bg-elevated: #1f1f1f;
+    --bg-card-hover: #252525;
+    --spotify-green: #1ed760;
+    --text-base: #ffffff;
+    --text-subdued: #b3b3b3;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: #000000;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+
+  .font-mono-tabular {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Custom subtle dark scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+@keyframes floatUpReaction {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0) scale(0.75);
+  }
+  15% {
+    opacity: 1;
+    transform: translate3d(-8px, -10px, 0) scale(1.1);
+  }
+  50% {
+    opacity: 0.95;
+    transform: translate3d(8px, -110px, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-6px, -230px, 0) scale(0.85);
+  }
+}
+
+.animate-float-reaction {
+  animation: floatUpReaction 2.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}

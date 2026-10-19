@@ -1,0 +1,16 @@
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+Thumbs.db
+*.log
+.env*
+!.env.example
+
+# Local JSON room persistence
+/data/
+
+# Internal AI Studio / agent artifacts
+.aistudio/
+
