@@ -121,7 +121,7 @@ synccinema/
 
 ## ⚙️ Customization (`src/config.ts`)
 
-Self-hosters and forkers can customize everything from [`src/config.ts`](file:///c:/Users/kulde/Developer/AI-Projects/Github%20Opensource/synccinema/src/config.ts):
+Self-hosters and forkers can customize everything from [`src/config.ts`](./src/config.ts):
 
 ```typescript
 export const APP_CONFIG = {
