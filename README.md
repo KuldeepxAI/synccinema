@@ -38,6 +38,10 @@ npm run dev
 
 Open **`http://localhost:3000`** in your browser.
 
+> [!TIP]
+> **Testing Multi-User Sync Locally on One Computer?**
+> If you test 2 participants on the same machine, open the second user in an **Incognito / Private Window** (or a different browser profile). This ensures Google doesn't count both tabs as concurrent streams on the same Google account.
+
 ---
 
 ## 🌐 How Can Friends Join If You Run on `localhost:3000`?

@@ -109,6 +109,8 @@ export const YouTubeSyncPlayer: React.FC<YouTubeSyncPlayerProps> = ({
 
   const [usePopupShield, setUsePopupShield] = useState(true);
   const [localIframeKey, setLocalIframeKey] = useState(0);
+  const [playerWarning, setPlayerWarning] = useState<string | null>(null);
+  const hasPlayerErrorRef = useRef<boolean>(false);
 
   latestPlaybackRef.current = playback;
 
@@ -158,6 +160,8 @@ export const YouTubeSyncPlayer: React.FC<YouTubeSyncPlayerProps> = ({
 
       if (targetKey && targetKey !== currentLoadedMediaRef.current) {
         currentLoadedMediaRef.current = targetKey;
+        hasPlayerErrorRef.current = false;
+        setPlayerWarning(null);
         suppressOutboundUntilRef.current = Date.now() + 1400;
 
         if (!pb.videoId && pb.playlistId && typeof player.loadPlaylist === 'function') {
@@ -272,6 +276,17 @@ export const YouTubeSyncPlayer: React.FC<YouTubeSyncPlayerProps> = ({
             applyYouTubeState(latestPlaybackRef.current, true);
             inspectAndReportYouTubePlaylist(event.target, latestPlaybackRef.current);
           },
+          onError: (event: any) => {
+            if (!isMounted) return;
+            hasPlayerErrorRef.current = true;
+            suppressOutboundUntilRef.current = Date.now() + 5000;
+            const code = Number(event.data);
+            if (code === 101 || code === 150) {
+              setPlayerWarning('The owner of this video restricts playback inside embedded players.');
+            } else if (code === 5) {
+              setPlayerWarning('HTML5 playback issue. Try clicking Resync.');
+            }
+          },
           onStateChange: (event: any) => {
             if (!isMounted) return;
             const state = event.data;
@@ -294,6 +309,7 @@ export const YouTubeSyncPlayer: React.FC<YouTubeSyncPlayerProps> = ({
             }
 
             if (state === 1) {
+              hasPlayerErrorRef.current = false;
               setLocalPlaying(true);
               const expected = getExpectedRoomTime(latestPlaybackRef.current);
               const jumped = Math.abs(curTime - expected) > 2.0;
@@ -302,7 +318,10 @@ export const YouTubeSyncPlayer: React.FC<YouTubeSyncPlayerProps> = ({
               }
             } else if (state === 2) {
               setLocalPlaying(false);
-              if (latestPlaybackRef.current.isPlaying) {
+              const isWindowFocused = typeof document !== 'undefined' ? document.hasFocus() : true;
+              const hasLocalError = hasPlayerErrorRef.current;
+              // Prevent cascade pause: do not broadcast pause if this device encountered an error or is in an unfocused background tab
+              if (latestPlaybackRef.current.isPlaying && isWindowFocused && !hasLocalError) {
                 onSyncAction('pause', curTime, false);
               }
             }
@@ -462,6 +481,8 @@ export const YouTubeSyncPlayer: React.FC<YouTubeSyncPlayerProps> = ({
   }, [getExpectedRoomTime]);
 
   const handleTogglePlayPause = () => {
+    hasPlayerErrorRef.current = false;
+    setPlayerWarning(null);
     if (playback.sourceType === 'youtube') {
       const player = ytPlayerRef.current;
       if (!player || !ytReadyRef.current) return;
@@ -577,6 +598,8 @@ export const YouTubeSyncPlayer: React.FC<YouTubeSyncPlayerProps> = ({
   };
 
   const handleForceResync = () => {
+    hasPlayerErrorRef.current = false;
+    setPlayerWarning(null);
     if (isIframeStage) {
       setLocalIframeKey((k) => k + 1);
       onSyncAction('reload_embed', 0, true);
@@ -599,6 +622,20 @@ export const YouTubeSyncPlayer: React.FC<YouTubeSyncPlayerProps> = ({
         ref={stageWrapperRef}
         className="relative w-full aspect-video bg-black overflow-hidden select-none"
       >
+        {/* Dismissable player notice */}
+        {playerWarning && (
+          <div className="absolute top-3 left-3 right-3 z-30 flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-lg bg-[#1f1f1f]/95 border border-[#333333] text-white text-[12px] shadow-lg backdrop-blur-sm">
+            <span className="truncate">{playerWarning}</span>
+            <button
+              type="button"
+              onClick={() => setPlayerWarning(null)}
+              className="text-[#b3b3b3] hover:text-white font-bold cursor-pointer shrink-0 text-[11px]"
+            >
+              Dismiss
+            </button>
+          </div>
+        )}
+
         {playback.sourceType === 'youtube' && (
           <div ref={ytContainerRef} className="w-full h-full" />
         )}
